@@ -53,3 +53,9 @@ jobs:
         CI_DEPLOY_PASSWORD: ${{ secrets.CI_DEPLOY_PASSWORD }}
         # MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
       run: ./mvnw -V -B -ff -DskipTests -ntp source:jar deploy
+    - name: compile
+      run: mvn test-compile -pl base -am
+    - name: test
+      run: mvn -pl base test -Dtest=com.fasterxml.jackson.jakarta.rs.base.cfg.AnnotationBundleKeyTest#testWithMethodAnnotationEquals
+    - name: nondex test
+      run: mvn -pl base edu.illinois:nondex-maven-plugin:1.1.2:nondex -Dtest=com.fasterxml.jackson.jakarta.rs.base.cfg.AnnotationBundleKeyTest#testWithMethodAnnotationEquals
