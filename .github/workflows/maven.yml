@@ -43,16 +43,7 @@ jobs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
-    - name: Build
-      run: ./mvnw -V -B -ff -ntp verify
-    - name: Deploy snapshot
-      if: github.event_name != 'pull_request' && matrix.java_version == '11'
-      # 01-Jul-2021, tatu: Note ^^^ that we must publish with JDK 11 too
-      env:
-        CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
-        CI_DEPLOY_PASSWORD: ${{ secrets.CI_DEPLOY_PASSWORD }}
-        # MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-      run: ./mvnw -V -B -ff -DskipTests -ntp source:jar deploy
+
     - name: compile
       run: mvn test-compile -pl base -am
     - name: test
